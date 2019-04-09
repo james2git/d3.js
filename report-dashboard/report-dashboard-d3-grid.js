@@ -319,7 +319,6 @@ function runReportData(dtset,CATEGORY_No,CHARTAreaString,HowManyMonths){
     // set the dimensions and margins of the graph
     var margin = {top: 5, right: 45, bottom: 5, left: 3},
         width_parent = 130 ;//- margin.left ; //- margin.right,
-        // height = 80 - margin.top - margin.bottom;
         width = width_parent - margin.left - margin.right,
         height = 105 - margin.top - margin.bottom;
 
