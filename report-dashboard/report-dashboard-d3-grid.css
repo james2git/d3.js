@@ -1,0 +1,121 @@
+.container {
+/* .container111 { */
+ 
+    display: grid;
+    grid-gap: 4px;    
+    /* justify-content: stretch; */
+    grid-template-columns: repeat(12, 1fr);
+    /* grid-template-rows: 120px 120px 350px 120px 120px;  */
+    grid-template-rows:  minmax(120px, 1fr) minmax(120px, 1fr) minmax(240px, 2fr)
+           minmax(120px, 1fr) minmax(120px, 1fr);
+
+    grid-template-areas:
+      "h h h h h h h h h h h h"
+      "h h h h h h h h h h h h"
+      "c c c c c c c c c m m m"
+      "f f f f f f f f f f f f"
+      "f f f f f f f f f f f f";
+}
+
+/* 
+@media screen and (max-width: 640px) {
+  .container {
+      grid-template-areas:
+          "m m m m m m h h h h h h"
+          "c c c c c c c c c c c c"
+          "f f f f f f f f f f f f";
+  }
+} */
+
+
+.header {
+    grid-area: h;
+      border: 2px ;
+    border-radius: 20px;
+}
+.menu {
+    grid-area: m;      border: 2px ;
+    border-radius: 20px;
+}
+.content {
+    grid-area: c;      border: 2px ;
+    border-radius: 20px;
+    
+}
+.footer {
+   grid-area: f;      border: 2px ;
+    border-radius: 20px;
+}
+
+/* ---------for d3 chart---------------- */
+/* .line {
+    fill: none;
+    stroke: dodgerblue;
+    stroke-width: 2px;
+  } */
+  
+  /* .line {
+    stroke: #FF3757;
+    stroke-width: 1.5px;
+    fill: none;
+  }
+  
+  .lineDots {
+    fill: #FF3757;
+    stroke: #FF3757;
+    stroke-width: 6px;
+    stroke-opacity: 0.2;
+  } */
+#headertitle,#footertitle
+{
+  margin: 2px;
+}
+
+  .axisSteelBlue text{
+    fill: steelblue;
+    font-size: 9px;
+  }
+
+  .axisRed text{
+    fill: red;
+  }
+    
+  .axisPurple text {
+    fill: purple;
+  }
+
+  .axisBottom path, line {
+    stroke: steelblue  ;
+    shape-rendering: crispEdges;
+    stroke-opacity: 0.4;
+    stroke-width: 1px;
+}
+ .axisSteelBlue path,line{
+  stroke: steelblue  ;
+  /* shape-rendering: crispEdges; */
+}
+
+  .axisBottom text {    
+    font-size: 9px;
+    font-family: sans-serif;
+    fill: steelblue;
+}
+
+.area {
+  stroke: #FF3757;
+  stroke-width: 1.5px;
+  stroke-opacity: 0.2;
+  fill: none;
+} 
+
+  /* .axis path,
+.axis line{
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+ 
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+} */
