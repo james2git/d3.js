@@ -138,10 +138,6 @@ function importf(obj) {//导入
         }
 
 
-
-
-
-
         //提取，转置数组数据
         
         dataset=combine_transpose_arr([].concat(arr)); //原始数据
@@ -172,7 +168,7 @@ function importf(obj) {//导入
 
             //do something here:
 
-            var ranking_month=sort2Darray(growthdata,"ZA");
+            ranking_month=sort2Darray(growthdata,"ZA");
             var ranking_year=sort2Darray(growthdata_cumulative,"ZA");
             //将图表加载至header。。。等区域
             for (let j = 0; j < growthdata.category.length; j++) {
@@ -182,8 +178,16 @@ function importf(obj) {//导入
                 
                 
             }
-            //runReportData(data2)
-            //runReportData(data3)
+            
+            //添加CONTENT区域图表
+            chart_showFullDetail(growthdata,ranking_month[0][2],".content",HowManyMonths,"price");
+            chart_showFullDetail(growthdata,ranking_month[0][2],".content",HowManyMonths,"growth");            
+            chart_showFullDetail(growthdata,ranking_month[0][2],".content",HowManyMonths,"growth_cumulative");
+
+
+
+
+
     }
     if(rABS) {
         reader.readAsArrayBuffer(f);
@@ -318,8 +322,7 @@ function runReportData(dtset,CATEGORY_No,CHARTAreaString,HowManyMonths){
     // var containerWidth = 120;
     // set the dimensions and margins of the graph
     var margin = {top: 5, right: 45, bottom: 5, left: 3},
-        width_parent = 130 ;//- margin.left ; //- margin.right,
-        // height = 80 - margin.top - margin.bottom;
+        width_parent = 130 , //- margin.left ; //- margin.right,
         width = width_parent - margin.left - margin.right,
         height = 105 - margin.top - margin.bottom;
 
@@ -379,15 +382,16 @@ function runReportData(dtset,CATEGORY_No,CHARTAreaString,HowManyMonths){
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
     var svg_parent = d3.select(CHARTAreaString).append("svg")
+        .attr("id","CATEGORYNo_" + c1)
         .attr("width", width_parent ) //+ margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform","translate(" + margin.left + "," + margin.top + ")");
     
-    console.log( svg_parent.node().getBoundingClientRect().bottom );
-    console.log( d3.select(CHARTAreaString).node().getBoundingClientRect().bottom);
+    // console.log( svg_parent.node().getBoundingClientRect().bottom );
+    // console.log( d3.select(CHARTAreaString).node().getBoundingClientRect().bottom);
     let which_bottom1 = svg_parent.node().getBoundingClientRect().bottom ;
-    let which_bottom2 = console.log( d3.select(CHARTAreaString).node().getBoundingClientRect().bottom);
+    let which_bottom2 = d3.select(CHARTAreaString).node().getBoundingClientRect().bottom;
 
     if (which_bottom1 > which_bottom2) {
         d3.select(CHARTAreaString).attr("style",{"height": which_bottom1 +100}); 
@@ -399,6 +403,7 @@ function runReportData(dtset,CATEGORY_No,CHARTAreaString,HowManyMonths){
     .append("g")
     .attr("transform","translate(0,0)"); //   + margin.left + "," + margin.top + ")");
     
+
 
     //* Get the data
     //d3.json(d, function(error, data) {
@@ -559,7 +564,7 @@ var areaGradient = svg.append('defs')
 //Initiate the area line function
 var areaFunction = d3.area()
 //// .interpolate("monotone")
-.curve(d3.curveMonotoneX)
+.curve((CHARTAreaString.toUpperCase()=="HEADER")?d3.curveLinear:d3.curveMonotoneX)
 .x(function(d,i) { return x(dt.dates[i]); })
 .y0(y_1(x_zero_baselinevalue))
 .y1(function(d,i) { return y_1(v1[i]); })
@@ -567,7 +572,7 @@ var areaFunction = d3.area()
 // .y0(height)
 // .y1(function(d) { return yScale(d.number); });
 
-//draw
+//draw area
 svg.append("path")
 .attr("class", "area")
 .style("fill", "url(#areaGradient"+c1+CHARTAreaString.slice(1)+")")
@@ -578,7 +583,7 @@ svg.append("path")
     
 
  //加category标题
- svg.append('g') // 输出标题
+ var title = svg.append('g') // 输出标题
  .attr("class","text_category")
  .append('text')
  .attr('fill', '#058')
@@ -621,6 +626,73 @@ svg_parent.append("svg") // 输出标题
 
 
 
+ var clickfunction = function() {
+    //添加CONTENT区域图表
+    d3.select(".content").selectAll("svg").remove();
+    chart_showFullDetail(growthdata,c1,".content",HowManyMonths,"price");
+    chart_showFullDetail(growthdata,c1,".content",HowManyMonths,"growth");
+    chart_showFullDetail(growthdata,c1,".content",HowManyMonths,"growth_cumulative");
+};
+
+
+
+
+//添加矩形元素
+var rect = svg_parent.append("rect")//添加矩形元素
+    .attr("class","MyRect")//清除里面的所有类，并设为自己的类myrect
+    // .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+    .attr("x", 0)//矩形左上角的x坐标
+    // .attr("width", width )//矩形的宽
+    .attr("y",0)//变化前的矩形左上角的y坐标
+    // .attr("height", height) //变化前的矩形左上角的高
+    .attr("width", width  + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .style("fill","lightcoral")   
+    .attr("opacity",0);
+
+    /*
+////////////////////////////////
+/////////还待测试///////////////////////
+////////////////////////////////
+var t = d3.transition()
+    // .duration(750)
+    .ease(d3.easeLinear);
+// d3.selectAll(".MyRect")
+rect.on("mouseover",function(d,i){//鼠标在上事件
+        // svg_parent.append("rect")//添加矩形元素
+        // .attr("class","MyRect_event")//清除里面的所有类，并设为自己的类myrect
+        // // .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+        // .attr("x", 0)//矩形左上角的x坐标
+        // // .attr("width", width )//矩形的宽
+        // .attr("y",0)//变化前的矩形左上角的y坐标
+        // // .attr("height", height) //变化前的矩形左上角的高
+        // .attr("width", width  + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
+
+        rect
+        .attr("opacity",0.3)
+        .transition(t).duration(1500)//800毫秒渐变        
+        .style("fill","lightcoral")    
+        .attr("opacity",0.85);
+        
+        console.log(d3.event);
+
+    })
+    .on("mouseout",function(d,i){//鼠标移出事件
+        // d3.select(this).transition().duration(800)//800毫秒渐变        
+        // .attr("opacity",0);
+        // d3.select(this)       // rect.attr("fill","yellow");
+        d3.select(".MyRect_event").remove();
+    });
+////////////////////////////////
+/////////还待测试///////////////////////
+////////////////////////////////
+*/
+
+
+// title.on("click",clickfunction);
+svg_parent.on("click",clickfunction);
+// svg.on("click",clickfunction);
 
 
 

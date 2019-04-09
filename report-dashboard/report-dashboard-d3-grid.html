@@ -10,10 +10,15 @@
     <link rel="stylesheet" type="text/css" media="screen" href="report-dashboard-d3-grid.css" />
 
     <script lang="javascript" src="js-xlsx-master/dist/xlsx.full.min.js"></script>
-    <script lang="javascript" src="d3/d3.min.js"></script>
+    <!-- <script lang="javascript" src="d3/d3.min.js"></script> -->
+    <script lang="javascript" src="d3/d3.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script> -->
+    <script lang="javascript" src="d3/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script lang="javascript" src="report-dashboard-barchart-gradient.js"></script>
+    <script lang="javascript" src="report-dashboard-chartWithAnimation.js"></script>
     <script lang="javascript" src="report-dashboard-d3-grid.js"></script>
 
-    <title>Dashboard Report</title>
+    <title>Dashboard</title>
 </head>
 <body>
     <input id = "fileselector" type="file"onchange="importf(this)" title="Select a data source file(Excel xlsx)" />
@@ -22,7 +27,7 @@
         <div class="header" style="background-color: #ACF4B6;">
             <p id="headertitle"  ></p>
         </div>
-        <div class="menu" style="background-color: #FFE975;">INFO</div>
+        <div class="menu" style="background-color: #FFE975;"></div>
         <div class="content" style="background-color: #5DFFFA;"></div>
         <div class="footer" style="background-color: #E6B4FD;">
             <p id="footertitle" ></p>

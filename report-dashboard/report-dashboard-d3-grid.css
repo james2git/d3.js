@@ -5,14 +5,15 @@
     grid-gap: 4px;    
     /* justify-content: stretch; */
     grid-template-columns: repeat(12, 1fr);
-    /* grid-template-rows: 120px 120px 350px 120px 120px;  */
-    grid-template-rows:  minmax(120px, 1fr) minmax(120px, 1fr) minmax(240px, 2fr)
+    /* grid-template-rows: 120px 120px 240px 120px 120px;  */
+    grid-template-rows:  minmax(120px, 1fr) minmax(120px, 1fr) minmax(120px, 6fr)
            minmax(120px, 1fr) minmax(120px, 1fr);
 
     grid-template-areas:
       "h h h h h h h h h h h h"
       "h h h h h h h h h h h h"
-      "c c c c c c c c c m m m"
+      /* "c c c c c c c c c m m m" */
+      "c c c c c c c c c c c c"
       "f f f f f f f f f f f f"
       "f f f f f f f f f f f f";
 }
@@ -48,11 +49,13 @@
 }
 
 /* ---------for d3 chart---------------- */
-/* .line {
+ .line {
     fill: none;
     stroke: dodgerblue;
     stroke-width: 2px;
-  } */
+    stroke-linecap: round;
+    
+  } 
   
   /* .line {
     stroke: #FF3757;
@@ -71,6 +74,10 @@
   margin: 2px;
 }
 
+  .titletext{
+    fill: steelblue;
+    font-size: 14px;
+  }
   .axisSteelBlue text{
     fill: steelblue;
     font-size: 9px;
@@ -78,10 +85,12 @@
 
   .axisRed text{
     fill: red;
+    font-size: 9px;
   }
     
   .axisPurple text {
     fill: purple;
+    font-size: 9px;
   }
 
   .axisBottom path, line {
@@ -92,7 +101,12 @@
 }
  .axisSteelBlue path,line{
   stroke: steelblue  ;
-  /* shape-rendering: crispEdges; */
+  shape-rendering: crispEdges;
+}
+ .axisPurple path,line{
+  /* stroke: purple  ; */
+  stroke: lightblue  ;
+  shape-rendering: crispEdges;
 }
 
   .axisBottom text {    
@@ -119,3 +133,24 @@
     font-family: sans-serif;
     font-size: 11px;
 } */
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 16px;
+  /* width: 100%; */
+  width: 100px;
+  line-height: 1;
+  color: rgba(233, 15, 15, 1);  
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
